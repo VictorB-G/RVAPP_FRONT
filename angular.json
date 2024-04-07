@@ -73,10 +73,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ReservAPP:build:production"
+              "buildTarget": "ReservAPP:build:production"
             },
             "development": {
-              "browserTarget": "ReservAPP:build:development"
+              "buildTarget": "ReservAPP:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +84,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ReservAPP:build"
+            "buildTarget": "ReservAPP:build"
           }
         },
         "test": {
