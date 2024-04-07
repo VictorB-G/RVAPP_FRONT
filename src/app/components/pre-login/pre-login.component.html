@@ -1,0 +1,11 @@
+<p-card header="RESERVAPP">
+    <p>Bienvenido a la aplicación de reserva de sitios en oficinas RESERVAPP.</p>
+    <p>- Mediante el botón "Registro" puede darse de alta en la aplicación con un breve formulario.</p>
+    <p>- En caso de ya disponer de un usuario puede iniciar sesión con el botón "Iniciar sesión".</p>
+    <div class="flex justify-center">
+        <div class="flex gap-x-4">
+            <p-button label="Registro" class="p-button-rounded" [routerLink]="['/register']"></p-button>
+            <p-button label="Iniciar sesión" [outlined]="true" class="p-button-rounded p-button-outlined" [routerLink]="['/login']"></p-button>
+        </div>
+    </div>
+</p-card>

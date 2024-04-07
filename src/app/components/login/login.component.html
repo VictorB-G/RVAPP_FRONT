@@ -1,0 +1,25 @@
+<p-breadcrumb [home]="{icon:'pi pi-home', url:'/', target:'_self'}"
+    [model]="[{ label: 'Iniciar sesión', styleClass: 'font-bold'}]">
+</p-breadcrumb>
+<div class="flex justify-center">
+    <div class="">
+        <div>
+          <h1 class="text-center mb-8">Iniciar sesión</h1>
+          <div class="m-auto">
+            <span class="p-float-label mb-8">
+              <input id="user" type="text" [(ngModel)]="user" pInputText class="w-full">
+              <label for="user">Usuario</label>
+            </span>
+        
+            <span class="p-float-label mb-8 w-full">
+              <p-password [(ngModel)]="pass" [toggleMask]="true" class="w-full" [feedback]="false"></p-password>
+              <label for="pass">Contraseña</label>
+            </span>
+        
+            <div class="flex justify-center">
+                <p-button type="button" class="p-button-primary mb-2" label="Iniciar sesión" (click)="login()"></p-button>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
