@@ -1,0 +1,11 @@
+<div class="spinner-wrapped">
+    <div class="overlay" *ngIf="message">
+      <div class="spinner-wrapper text-center justify-center flex flex-col">
+        <p-progressSpinner *ngIf="true" class="mt-8" animationDuration="1.5s"></p-progressSpinner>
+        <p class="text-center">{{message}}</p>
+      </div>
+    </div>
+    <div class="loaded-content" [class.blurred]="message">
+      <ng-content></ng-content>
+    </div>
+  </div>

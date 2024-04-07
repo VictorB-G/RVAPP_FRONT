@@ -1,0 +1,12 @@
+<p-menubar class="p-tabmenu p-tabmenu-nav" [model]="headerItems">
+    <ng-template pTemplate="start">
+        <!-- PONER LOGO APP LUEGO -->
+        <img src="https://primefaces.org/cdn/primeng/images/primeng.svg" height="40" class="mr-2" />
+    </ng-template>
+    <ng-template pTemplate="end">
+        <div *ngIf="isLoggedIn">
+            <p-menu [popup]="true"></p-menu>
+            <p-button icon="">Hola, {{user?.nombre}}</p-button>
+        </div>
+    </ng-template> 
+</p-menubar>
