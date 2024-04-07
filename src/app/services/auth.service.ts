@@ -56,15 +56,16 @@ export class AuthService {
     return this.usuarioActual?.rol?.codRol === ROL.ADMIN;
   }
 
-  getLoggedUser(): Usuario {
-    let user: Usuario = this.usuarioActual;
+  getLoggedUser(): Usuario | null {
+    return null;
+    /*let user: Usuario = this.usuarioActual;
     if (this.usuarioActual?.id == null || this.usuarioActual?.id == undefined){
       let userString = localStorage.getItem(LOCAL_STORAGE.USUARIO_TOKEN);
       if(userString != null && userString!==JSON.stringify(user)){
         user = JSON.parse(userString);
       }
     } 
-    return user;
+    return user;*/
   }
 
   login(login: string, pass: string, nif: string): Observable<AuthResponse> {
@@ -79,7 +80,18 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(LOCAL_STORAGE.USUARIO_TOKEN);
     this.usuarioActual = this.inicializarUsuario();
+    this.loggedIn.next(false);
     this.router.navigate(['']);
+  }
+
+  isLogged(): boolean {
+    let jwt = localStorage.getItem(LOCAL_STORAGE.USUARIO_TOKEN);
+    if (jwt != null) {
+      return true;
+    } else {
+      this.loggedIn.next(false);
+      return false;
+    }
   }
 
   loginStatusChange(): Observable<boolean> {

@@ -77,7 +77,6 @@ export class AutoRegisterComponent {
     this.usuario = this.usuarioRegistroForm.getRawValue();
     let validarMismosDatosEmailPass : boolean = this.validarMismosDatosEmailPass();
     if (this.usuarioRegistroForm.valid && validarMismosDatosEmailPass) {
-      debugger
       this.uiSpinnerService.showSpinner("Registrando usuario...")
       this.masterdataPublicService.autoRegisterUser(this.usuario)
         .then((response) => {

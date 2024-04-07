@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Usuario } from 'src/app/models/usuario.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { LOCAL_STORAGE } from 'src/app/utils/constants';
 
 @Component({
   selector: 'app-header',
@@ -13,9 +14,8 @@ import { AuthService } from 'src/app/services/auth.service';
 export class HeaderComponent {
 
   headerItems: MenuItem[] = [];
-  isLoggedIn: boolean = false;
   user: Usuario | null = null;
-
+  isLogged: boolean = false;
   constructor(
     private router: Router,
     private authService: AuthService
@@ -23,20 +23,28 @@ export class HeaderComponent {
 
   ngOnInit() {
     this.authService.loginStatusChange().subscribe(loggedIn => {
-      this.isLoggedIn = loggedIn;
-      if (this.isLoggedIn) {
+      debugger
+      if (this.authService.isLogged()) {
+        this.isLogged = true;
         this.user = this.authService.getLoggedUser();
         this.cargarHeaderItemsLogged();
       } else {
+        this.isLogged = false;
         this.cargarHeaderItemsUnlogged();
       }
     });
-    if (this.isLoggedIn) {
-      this.user = this.authService.getLoggedUser();
-      this.cargarHeaderItemsLogged();
+    //TODO: Lo del token lo hago manual provisionalmente ya que si llamo al service genera un bucle infinito 
+    //TODO: Sigue pasando hay qye revisar
+    let jwt = localStorage.getItem(LOCAL_STORAGE.USUARIO_TOKEN);
+    if (jwt != null) {
+      this.isLogged = true;
+        this.user = this.authService.getLoggedUser();
+        this.cargarHeaderItemsLogged();
     } else {
+      this.isLogged = false;
       this.cargarHeaderItemsUnlogged();
     }
+      
   }
 
   cargarHeaderItemsLogged() {
@@ -50,7 +58,7 @@ export class HeaderComponent {
         label: 'Usuarios',
         icon: 'pi pi-users',
         routerLink: '/usuarios',
-        visible: this.authService.isAdmin
+        
       }
     ];
   }

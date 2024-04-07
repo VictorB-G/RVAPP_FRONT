@@ -4,9 +4,9 @@
         <img src="https://primefaces.org/cdn/primeng/images/primeng.svg" height="40" class="mr-2" />
     </ng-template>
     <ng-template pTemplate="end">
-        <div *ngIf="isLoggedIn">
+        @if (isLogged) {
             <p-menu [popup]="true"></p-menu>
             <p-button icon="">Hola, {{user?.nombre}}</p-button>
-        </div>
+        }
     </ng-template> 
 </p-menubar>

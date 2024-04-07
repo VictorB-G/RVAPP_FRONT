@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
 import { PreLoginComponent } from './components/pre-login/pre-login.component';
 import { AutoRegisterComponent } from './components/auto-register/auto-register.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
@@ -18,6 +18,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { MessagesModule } from 'primeng/messages';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthInterceptorService } from './services/auth-interceptor.service';
 
 
 @NgModule({
@@ -47,7 +48,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     PasswordModule,
     MessagesModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
