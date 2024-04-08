@@ -5,8 +5,8 @@
     </ng-template>
     <ng-template pTemplate="end">
         @if (isLogged) {
-            <p-menu [popup]="true"></p-menu>
-            <p-button icon="">Hola, {{user?.nombre}}</p-button>
+            <p-menu #menu [model]="itemsDesplegable" [popup]="true"></p-menu>
+            <p-button icon="" (click)="menu.toggle($event)">Hola, {{user?.nombre}} {{user?.apellido1}} ᐁ </p-button>
         }
     </ng-template> 
 </p-menubar>

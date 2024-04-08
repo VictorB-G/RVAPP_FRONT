@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Usuario } from 'src/app/models/usuario.model';
 import { AuthService } from 'src/app/services/auth.service';
-import { LOCAL_STORAGE } from 'src/app/utils/constants';
 
 @Component({
   selector: 'app-header',
@@ -16,68 +15,44 @@ export class HeaderComponent {
   headerItems: MenuItem[] = [];
   user: Usuario | null = null;
   isLogged: boolean = false;
+  itemsDesplegable: MenuItem[] = [{label: 'Cerrar sesión', icon: 'pi pi-sign-out', command: () => {this.authService.logout();}}];
+  subject = this.authService.loginSubject.subscribe((value) => {this.refreshHeader();});
+
   constructor(
     private router: Router,
     private authService: AuthService
   ) { }
 
   ngOnInit() {
-    this.authService.loginStatusChange().subscribe(loggedIn => {
-      debugger
-      if (this.authService.isLogged()) {
-        this.isLogged = true;
-        this.user = this.authService.getLoggedUser();
-        this.cargarHeaderItemsLogged();
-      } else {
-        this.isLogged = false;
-        this.cargarHeaderItemsUnlogged();
-      }
-    });
-    //TODO: Lo del token lo hago manual provisionalmente ya que si llamo al service genera un bucle infinito 
-    //TODO: Sigue pasando hay qye revisar
-    let jwt = localStorage.getItem(LOCAL_STORAGE.USUARIO_TOKEN);
-    if (jwt != null) {
-      this.isLogged = true;
-        this.user = this.authService.getLoggedUser();
-        this.cargarHeaderItemsLogged();
-    } else {
-      this.isLogged = false;
-      this.cargarHeaderItemsUnlogged();
-    }
-      
+
   }
 
+  async refreshHeader() {
+    await this.authService.getLoggedUser()
+      .then((user) => {
+        this.user = user;
+        this.authService.usuarioActual = user;
+      })
+      .catch((error) => {this.user = null;})
+    if(this.authService.isLogged()) {
+      console.log(this.user);
+      this.cargarHeaderItemsLogged();
+      this.isLogged = true;
+    } else {
+      this.cargarHeaderItemsUnlogged();
+      this.isLogged = false;
+    }
+  }  
+
   cargarHeaderItemsLogged() {
-    this.headerItems = [
-      {
-        label: 'Inicio',
-        icon: 'pi pi-home',
-        routerLink: '/'
-      },
-      {
-        label: 'Usuarios',
-        icon: 'pi pi-users',
-        routerLink: '/usuarios',
-        
-      }
-    ];
+    this.headerItems = [{ label: 'Inicio', icon: 'pi pi-home', routerLink: '/inicio' }];
+    if (this.authService.isAdmin) {
+      this.headerItems.push({label: 'Administración', icon: 'pi pi-cog', routerLink: '/admin'});
+    }
   }
 
 
   cargarHeaderItemsUnlogged() {
-    this.headerItems = [
-      {
-        label: 'Inicio',
-        routerLink: '/'
-      },
-      {
-        label: 'Login',
-        routerLink: '/login'
-      },
-      {
-        label: 'Registro',
-        routerLink: '/register'
-      }
-    ];
+    this.headerItems = [{ label: 'Inicio', routerLink: '/' }, { label: 'Iniciar sesión', routerLink: '/login' }, { label: 'Registro', routerLink: '/register' }];
   }
 }

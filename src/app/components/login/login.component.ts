@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { Message } from 'primeng/api';
 import { AuthResponse } from 'src/app/models/auth.model';
 import { AuthService } from 'src/app/services/auth.service';
-import { ObjectResponse } from 'src/app/utils/backend-service';
 import { LOCAL_STORAGE } from 'src/app/utils/constants';
 
 @Component({
@@ -35,8 +34,8 @@ export class LoginComponent {
         if (response) {
           localStorage.removeItem(LOCAL_STORAGE.USUARIO_TOKEN);
           localStorage.setItem(LOCAL_STORAGE.USUARIO_TOKEN, response.jwt);
-          this.authService.loggedIn.next(true);
-          this.router.navigate(['/']);
+          this.authService.loginSubject.next(true);
+          this.router.navigate(['/inicio']);
         } else {
           this.messages = [{ severity: 'error', summary: 'Error', detail: 'Se ha producido un error al iniciar sesión. Las credenciales son inválidas.' }];
         }

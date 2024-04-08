@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Usuario } from '../models/usuario.model';
 import { HttpClient } from '@angular/common/http';
 import { LOCAL_STORAGE, ROL } from '../utils/constants';
-import { Observable, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ObjectResponse } from '../utils/backend-service';
 import { AuthRequest, AuthResponse } from '../models/auth.model';
 import { Generic } from '../utils/utils';
@@ -15,32 +15,14 @@ import { Generic } from '../utils/utils';
 export class AuthService {
 
   private readonly API_URL: string = environment.apiBaseUrl;
-  public loggedIn: Subject<boolean> = new ReplaySubject<boolean>(1);
-  private usuarioActual: Usuario;
-
-  constructor( 
+  usuarioActual: Usuario | null = null;
+  loginSubject = new BehaviorSubject(false);
+  constructor(
     readonly router: Router,
     private http: HttpClient
-  ) { 
-    this.usuarioActual = this.inicializarUsuario()
+  ) {
   }
 
-  inicializarUsuario(): Usuario {
-    return {
-      id: undefined,
-      nif: '',
-      nombre: '',
-      apellido1: '',
-      apellido2: '',
-      email: '',
-      rol: {
-        id: undefined,
-        codRol: '',
-        descripcion: '',
-      },
-      activo: false
-    };
-  }
 
   public get getRol() {
     if (Generic.isNullOrUndefined(this.usuarioActual)) {
@@ -56,16 +38,24 @@ export class AuthService {
     return this.usuarioActual?.rol?.codRol === ROL.ADMIN;
   }
 
-  getLoggedUser(): Usuario | null {
-    return null;
-    /*let user: Usuario = this.usuarioActual;
-    if (this.usuarioActual?.id == null || this.usuarioActual?.id == undefined){
-      let userString = localStorage.getItem(LOCAL_STORAGE.USUARIO_TOKEN);
-      if(userString != null && userString!==JSON.stringify(user)){
-        user = JSON.parse(userString);
-      }
-    } 
-    return user;*/
+  getLoggedUser(): Promise<Usuario | null> {
+    if (!this.isLogged()) { return Promise.resolve(this.usuarioActual); }
+    if (this.usuarioActual != null) { return Promise.resolve(this.usuarioActual); }
+    return new Promise<Usuario>((resolve, reject) => {
+      this.http.get<ObjectResponse<Usuario>>(`${this.API_URL}/auth/user`, {
+        observe: 'body'
+      }).subscribe({
+        next: (response: ObjectResponse<Usuario>) => {
+          if (response.success) {
+            resolve(response.message);
+          } else {
+            reject(response.error);
+          }
+        }, error: (error) => {
+          reject('Error al obtener el usuario loggeado')
+        }
+      });
+    });
   }
 
   login(login: string, pass: string, nif: string): Observable<AuthResponse> {
@@ -74,14 +64,14 @@ export class AuthService {
       username: login,
       pass: pass
     };
-    return this.http.post<AuthResponse>(`${this.API_URL}/auth/login`,authRequest);
+    return this.http.post<AuthResponse>(`${this.API_URL}/auth/login`, authRequest);
   }
 
   logout(): void {
     localStorage.removeItem(LOCAL_STORAGE.USUARIO_TOKEN);
-    this.usuarioActual = this.inicializarUsuario();
-    this.loggedIn.next(false);
+    this.usuarioActual = null;
     this.router.navigate(['']);
+    this.loginSubject.next(false);
   }
 
   isLogged(): boolean {
@@ -89,12 +79,15 @@ export class AuthService {
     if (jwt != null) {
       return true;
     } else {
-      this.loggedIn.next(false);
       return false;
     }
   }
 
-  loginStatusChange(): Observable<boolean> {
-    return this.loggedIn.asObservable();
+  refreshLogin(): void {
+    if (this.isLogged()) {
+      this.loginSubject.next(true);
+    } else {
+      this.loginSubject.next(false);
+    }
   }
 }

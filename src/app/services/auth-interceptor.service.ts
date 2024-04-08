@@ -30,7 +30,7 @@ export class AuthInterceptorService {
     return next.handle(request).pipe(
       catchError((err: HttpErrorResponse) => {
         if (err.status === 401) {
-          this.authService.loggedIn.next(false);
+          this.authService.logout();
           this.router.navigateByUrl('/login');
         }
         return throwError(() => err);
