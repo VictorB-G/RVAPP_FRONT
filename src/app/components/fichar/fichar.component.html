@@ -1,0 +1,23 @@
+<p-breadcrumb [home]="{icon:'pi pi-home', url:'/', target:'_self'}"
+    [model]="[{ label: 'Fichar', styleClass: 'font-bold'}]">
+</p-breadcrumb>
+<p-messages class="mb-14" [enableService]="false" [closable]="true"></p-messages>
+<div class="flex justify-center">
+    <div class="">
+        <div>
+            <h1 class="text-center mb-8">Fichar</h1>
+            <div class="m-auto">
+                <div class="flex justify-center">
+                    <span class="p-float-label mb-8">
+                        <input id="nif" type="text"  pInputText>
+                        <label for="nif">NIF</label>
+                    </span>
+                </div>
+            </div>
+            <p-checkbox inputId="cbValitation" value="true" label="Acepto que se consulten mis datos personales para la validar la reserva del sitio" class="mb-8"></p-checkbox>
+            <div class="flex justify-center">
+                <p-button type="button" class="p-button-primary mb-2" label="Fichar"></p-button>
+            </div>
+        </div>
+      </div>
+</div>

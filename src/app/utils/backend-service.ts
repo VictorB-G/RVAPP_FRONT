@@ -19,7 +19,7 @@ export interface ListResponse<T> {
 
 export interface ArrayResponse<T> {
   content: Array<T>;
-  paginacion: Paginacion;
+  paginacionDto: Paginacion;
 }
 
 export interface Paginacion {

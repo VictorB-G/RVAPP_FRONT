@@ -155,7 +155,7 @@ export class Emails {
 
 export class Passwords {
   static getRegexForPassword(): RegExp {
-    return /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/;
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/
   }
 }
 

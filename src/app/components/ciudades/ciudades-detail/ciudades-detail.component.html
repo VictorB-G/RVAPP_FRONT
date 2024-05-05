@@ -1,0 +1,30 @@
+<p-breadcrumb [home]="{icon:'pi pi-home', url:'/inicio', target:'_self'}" [model]="[{ label: 'Ciudades', url: '/ciudades', target: '_self'}, { label: 'Detalle de ciudad', styleClass: 'font-bold'},]">
+</p-breadcrumb>
+<div class="flex justify-between mt-2">
+    @if(this.op === this.OPS.EDIT) {
+        <h2>Editar ciudad</h2>
+    } @else if (this.op === this.OPS.NEW) {
+        <h2>Añadir ciudad</h2>
+    }
+    <div class="flex items-center">
+        <p-button type="button" class="p-button-primary mr-4" [outlined]="true" label="Volver" (onClick)="volver()"></p-button>
+        <p-button type="button" class="" severity="success" label="Guardar" (onClick)="saveCiudad()"></p-button>
+    </div>
+</div>
+<div>
+    <p-messages styleClass="mb-10" [(value)]="messages" [enableService]="false" [closable]="false"></p-messages>
+    @if (ciudadSeleccionada || this.op === this.OPS.NEW) {
+        <form [formGroup]="ciudadForm">
+            <div class="grid grid-cols-4 gap-x-6 gap-y-3">
+                <span class="p-float-label mb-8">
+                    <input id="codigo" type="text" pInputText class="w-full" maxlength="5" formControlName="codigo">
+                    <label for="codigo">Código ciudad *</label>
+                </span>
+                <span class="p-float-label mb-8 col-span-2">
+                    <input id="codigo" type="text" pInputText class="w-full" maxlength="50" formControlName="nombre">
+                    <label for="codigo">Nombre *</label>
+                </span>
+            </div>
+        </form>
+    }
+</div>

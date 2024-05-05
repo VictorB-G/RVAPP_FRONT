@@ -1,5 +1,5 @@
 import {AbstractControl, ValidationErrors} from '@angular/forms';
-import {Generic, Numbers, Strings} from '../utils/utils';
+import {Generic, Numbers, Strings} from '../../utils/utils';
 import {esDNIValido, esNIEValido} from './documents.validator';
 import {EmailValidation} from './email.validator';
 import { PasswordValidation } from './password.validator';

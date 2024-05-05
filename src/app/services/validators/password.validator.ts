@@ -1,4 +1,4 @@
-import { Passwords } from "../utils/utils";
+import { Passwords } from "../../utils/utils";
 
 export class PasswordValidation {
     static validatePasswordComplex(pass: string): boolean {

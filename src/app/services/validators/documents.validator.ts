@@ -1,4 +1,4 @@
-import { Generic } from "../utils/utils";
+import { Generic } from "../../utils/utils";
 
 export const esDNIValido = (dni: string): boolean => {
   if (Generic.isNullOrUndefined(dni)) {

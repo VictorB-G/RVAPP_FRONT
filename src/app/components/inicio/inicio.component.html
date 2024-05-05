@@ -1,1 +1,7 @@
-<p>inicio works!</p>
+<p-card>
+    <p>Bienvenido {{user?.nombre}} {{user?.apellido1}}, con rol {{user?.rol?.descripcion}} a la aplicación de reserva de sitios en oficinas RESERVAPP.</p>
+    <p>- Desde el menú superior podra realizar sus gestiones como reservar sitio o ver información sobre sus reservas.</p>
+    @if (user?.rol?.codRol == 'ADM') {
+    <p>- Además, podrá gestionar los usuarios y las oficinas de la aplicación.</p>
+    }
+</p-card>

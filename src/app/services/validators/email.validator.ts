@@ -1,4 +1,4 @@
-import { Emails } from "../utils/utils";
+import { Emails } from "../../utils/utils";
 
 export class EmailValidation {
   static validationEmail(email: string): boolean {

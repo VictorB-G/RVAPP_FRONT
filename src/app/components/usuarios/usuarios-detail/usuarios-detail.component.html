@@ -1,0 +1,69 @@
+@if (this.op !== this.OPS.VIEW) {
+    <p-breadcrumb [home]="{icon:'pi pi-home', url:'/inicio', target:'_self'}" [model]="[{ label: 'Usuarios', url: '/usuarios', target: '_self'}, { label: 'Detalle de usuario', styleClass: 'font-bold'},]">
+    </p-breadcrumb>
+}
+<div class="flex justify-between mt-2">
+    @if(this.op === this.OPS.EDIT) {
+        <h2>Editar usuario</h2>
+    } @else if (this.op === this.OPS.NEW) {
+        <h2>Añadir usuario</h2>
+    } @else if (this.op === this.OPS.VIEW) {
+        <h2>Consulta de usuario</h2>
+    }
+    @if (this.op !== this.OPS.VIEW) {
+        <div class="flex items-center">
+            <p-button type="button" class="p-button-primary mr-4" [outlined]="true" label="Volver" (onClick)="volver()"></p-button>
+            <p-button type="button" class="" severity="success" label="Guardar" (onClick)="saveUsuario()"></p-button>
+        </div>
+    }
+</div>
+<div>
+    <p-messages styleClass="mb-10" [(value)]="messages" [enableService]="false" [closable]="false"></p-messages>
+    @if (usuarioSeleccionado || this.op === this.OPS.NEW) {
+        <form [formGroup]="usuarioDetailForm">
+            <div class="grid grid-cols-4 gap-x-6 gap-y-3">
+                <span class="p-float-label mb-8">
+                    <input id="nifForm" type="text" pInputText class="w-full" maxlength="10" formControlName="nif" [ngClass]="{'bg-gray-200': this.op === this.OPS.EDIT  }">
+                    <label for="nifForm">NIF *</label>
+                </span>
+                <span class="p-float-label mb-8">
+                    <input id="nombreForm" type="text" pInputText class="w-full" maxlength="50" formControlName="nombre">
+                    <label for="nombreForm">Nombre *</label>
+                </span>
+                <span class="p-float-label mb-8">
+                    <input id="apellido1Form" type="text" pInputText class="w-full" maxlength="50" formControlName="apellido1">
+                    <label for="apellido1Form">Primer apellido *</label>
+                </span>
+                <span></span>
+                <span class="p-float-label mb-8">
+                    <input id="apellido2Form" type="text" pInputText class="w-full" maxlength="50" formControlName="apellido2">
+                    <label for="apellido2Form">Segundo apellido</label>
+                </span>
+                <span class="p-float-label mb-8 col-span-2">
+                    <input id="emailForm" type="text" pInputText class="w-full" maxlength="75" formControlName="email">
+                    <label for="emailForm">Email *</label>
+                </span>
+                <span></span>
+                <span class="p-float-label mb-8">
+                    <p-dropdown id="rolForm" [options]="roles" optionLabel="descripcion" optionValue="id" styleClass="authService.userId == this.idUsuario ? bg-gray-200 w-full : w-full" formControlName="idRol"></p-dropdown>
+                    <label for="rolForm">Rol *</label>
+                </span>
+                <span class="p-float-label mb-8">
+                    <p-dropdown id="activoForm" [options]="activos" styleClass="authService.userId == this.idUsuario ? bg-gray-200 w-full : w-full" formControlName="activo"></p-dropdown>
+                    <label for="activoForm">Activo *</label>
+                </span>
+                <span></span>
+                @if (this.op === this.OPS.NEW) {
+                    <span class="p-float-label mb-8 col-span-2">
+                        <input id="username" type="text" pInputText class="w-full" formControlName="username" maxlength="50">
+                        <label for="username">Nombre de usuario *</label>
+                    </span>
+                    <span class="p-float-label mb-8">
+                        <p-password id="password" [toggleMask]="true" class="w-full" [feedback]="true" formControlName="password" maxlength="50"></p-password>
+                        <label for="password">Contraseña *</label>
+                    </span> 
+                }
+            </div>
+        </form>
+    }
+</div>

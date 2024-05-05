@@ -1,0 +1,91 @@
+<p-breadcrumb [home]="{icon:'pi pi-home', url:'/inicio', target:'_self'}" [model]="[{ label: 'Usuarios', styleClass: 'font-bold'}]">
+</p-breadcrumb>
+<h2>Usuarios</h2>
+<p-messages class="mb-14" [(value)]="messages" [enableService]="false" [closable]="false"></p-messages>
+<div id="usuariosFiltro" class="mb-4">
+    <p-accordion>
+        <p-accordionTab>
+            <ng-template pTemplate="header">
+                <div class="flex items-baseline ">
+                    <span class="">Filtros</span>
+                    <i class="pi pi-search ml-2"></i>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="content">
+                <div class="grid grid-cols-4 gap-x-6 gap-y-3 mt-6">
+                    <span class="p-float-label mb-8">
+                        <input id="nif" type="text" pInputText class="w-full" maxlength="10" [(ngModel)]="filtro.nif">
+                        <label for="nif">NIF</label>
+                    </span>
+                    <span class="p-float-label mb-8">
+                        <input id="nombre" type="text" pInputText class="w-full" maxlength="50" [(ngModel)]="filtro.nombre">
+                        <label for="nombre">Nombre</label>
+                    </span>
+                    <span class="p-float-label mb-8">
+                        <input id="apellido1" type="text" pInputText class="w-full" maxlength="50" [(ngModel)]="filtro.apellido1">
+                        <label for="apellido1">Primer apellido</label>
+                    </span>
+                    <span></span>
+                    <span class="p-float-label mb-8">
+                        <input id="email" type="text" pInputText class="w-full" maxlength="10" [(ngModel)]="filtro.email">
+                        <label for="email">Email</label>
+                    </span>
+                    <span class="p-float-label mb-8">
+                        <p-dropdown id="rol" [options]="roles" optionLabel="descripcion" optionValue="codRol" styleClass="w-full" [(ngModel)]="filtro.rol"></p-dropdown>
+                        <label for="rol">Rol</label>
+                    </span>
+                    <span class="p-float-label mb-8">
+                        <p-dropdown id="activo" [options]="activos" styleClass="w-full" [(ngModel)]="filtro.activo"></p-dropdown>
+                        <label for="activo">Activo</label>
+                    </span>
+                </div>
+                <p-button type="button" class="p-button-primary mb-2 mr-4" label="Aplicar filtros" (click)="refreshUsuarios(null)"></p-button>
+                <p-button type="button" [outlined]="true" class="p-button-rounded p-button-outlined" label="Eliminar filtros" (click)="precargarFiltro(true)"></p-button>
+            </ng-template>
+        </p-accordionTab>
+    </p-accordion>
+</div>
+<div id="botonesUsuarios" class="mb-3 flex justify-end">
+    <p-button type="button" class="p-button-primary" label="Añadir" (click)="anyadirUsuario()"></p-button>
+</div>
+<div id="tabla">
+    <p-table
+    [value]="usuarios"
+    [lazy]="true"
+    (onLazyLoad)="refreshUsuarios($event)"
+    dataKey="id"
+    [tableStyle]=""
+    [paginator]="true"
+    [rows]="itemsPorPagina"
+    [rowsPerPageOptions]="[10, 25 , 50, 100]"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando {first} de {last} de un total de {totalRecords} usuarios"
+    [totalRecords]="registrosTotales"
+>
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="nif">NIF <p-sortIcon field="nif"></p-sortIcon></th>
+            <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
+            <th pSortableColumn="apellido1">Primer apellido <p-sortIcon field="apellido1"></p-sortIcon></th>
+            <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+            <th pSortableColumn="rol">Rol <p-sortIcon field="rol"></p-sortIcon></th>
+            <th pSortableColumn="activo">Activo <p-sortIcon field="activo"></p-sortIcon></th>
+            <th>Acciones </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+        <tr>
+            <td>{{ user.nif }}</td>
+            <td>{{ user.nombre }}</td>
+            <td>{{ user.apellido1 }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.rol.descripcion }}</td>
+            <td>{{ user.activo ? 'Sí' : 'No' }}</td>
+            <td>
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mx-2" (click)="editarUsuario(user)"></button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+</div>

@@ -8,6 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ObjectResponse } from '../utils/backend-service';
 import { AuthRequest, AuthResponse } from '../models/auth.model';
 import { Generic } from '../utils/utils';
+import {jwtDecode} from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,13 @@ export class AuthService {
   ) {
   }
 
+  decodificarToken(): any {
+    try {
+      return jwtDecode(localStorage.getItem(LOCAL_STORAGE.USUARIO_TOKEN) || '');
+    } catch(Error) {
+      return null;
+    }
+  }
 
   public get getRol() {
     if (Generic.isNullOrUndefined(this.usuarioActual)) {
@@ -32,10 +40,21 @@ export class AuthService {
   }
 
   public get isAdmin(): boolean {
-    if (Generic.isNullOrUndefined(this.usuarioActual)) {
+    let tokenDecoded = this.decodificarToken();
+    let rol = tokenDecoded?.rol;
+    if (Generic.isNullOrUndefined(rol)) {
       return false;
     }
-    return this.usuarioActual?.rol?.codRol === ROL.ADMIN;
+    return rol == ROL.ADMIN;
+  }
+
+  public get userId(): string {
+    let tokenDecoded = this.decodificarToken();
+    let id = tokenDecoded?.id;
+    if (Generic.isNullOrUndefined(id)) {
+      return id;
+    }
+    return id;
   }
 
   getLoggedUser(): Promise<Usuario | null> {

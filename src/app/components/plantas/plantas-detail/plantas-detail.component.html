@@ -1,0 +1,61 @@
+<p-breadcrumb [home]="{icon:'pi pi-home', url:'/inicio', target:'_self'}" [model]="[{ label: 'Plantas', url: '/plantas', target: '_self'}, { label: 'Detalle de planta', styleClass: 'font-bold'},]">
+</p-breadcrumb>
+<div class="flex justify-between mt-2">
+    @if(this.op === this.OPS.EDIT) {
+        <h2>Editar planta</h2>
+    } @else if (this.op === this.OPS.NEW) {
+        <h2>Añadir planta</h2>
+    }
+    <div class="flex items-center">
+        <p-button type="button" class="p-button-primary mr-4" [outlined]="true" label="Volver" (onClick)="volver()"></p-button>
+        <p-button type="button" class="" severity="success" label="Guardar" (onClick)="savePlanta()"></p-button>
+    </div>
+</div>
+<div>
+    <p-messages styleClass="mb-10" [(value)]="messages" [enableService]="false" [closable]="false"></p-messages>
+    @if (plantaSeleccionada || this.op === this.OPS.NEW) {
+        <form [formGroup]="plantaForm">
+            <div class="grid grid-cols-4 gap-x-6 gap-y-3">
+                <span class="p-float-label mb-8">
+                    <p-dropdown id="idCiudad" [options]="ciudades" styleClass="w-full" optionLabel="nombre" optionValue="id" formControlName="idCiudad" (onChange)="obtenerOficinas()"></p-dropdown>
+                    <label for="idCiudad">Ciudad *</label>
+                </span>
+                <span class="p-float-label mb-8">
+                    <p-dropdown id="idOficina" [options]="oficinas" styleClass="w-full" optionLabel="nombre" optionValue="id" formControlName="idOficina"></p-dropdown>
+                    <label for="idOficina">Oficina *</label>
+                </span>
+                <span></span>
+                <span></span>
+                <span class="p-float-label mb-8">
+                    <input id="nombre" type="text" pInputText class="w-full" maxlength="50" formControlName="nombre">
+                    <label for="nombre">Nombre *</label>
+                </span>
+                <span class="p-float-label mb-8">
+                    <input id="numPlanta" type="text" pInputText class="w-full" maxlength="75" formControlName="numPlanta">
+                    <label for="numPlanta">Número de planta *</label>
+                </span>
+                <span class="p-float-label mb-8">
+                    <input id="numSitios" type="text" pInputText class="w-full" maxlength="5" formControlName="numeroSitios" [ngClass]="{'bg-gray-200': this.op === this.OPS.EDIT  }">
+                    <label for="numSitios">Número de sitios *</label>
+                </span>
+                <span></span>
+            </div>
+        </form>
+        <div class="grid grid-cols-12 mb-8">
+            @if (this.op === this.OPS.EDIT) {
+                <span class="col-span-6">
+                    <label for="planoOficina">Plano de la oficina</label>
+                    <p-fileUpload name="planoOficina" [multiple]="false" accept="image/png" [maxFileSize]="10000000" styleClass="mt-4" [customUpload]="true" (uploadHandler)="subirPlano($event)" name="planoOficina">
+                        <ng-template pTemplate="content">
+                            <p>Arrastra y suelta archivos aquí para subirlos</p>
+                        </ng-template>
+                    </p-fileUpload>
+                </span>
+                <span class="col-span-6 ml-8">
+                    <label for="vistaPlano" class="mt-4">Vista previa</label>
+                    <p-image [src]="convertBlobToImg()" alt="Plano de la oficina" name="vistaPlano" styleClass="w-full" [preview]="true" width="250" height="250"></p-image>
+                </span> 
+            }
+        </div>
+    }
+</div>

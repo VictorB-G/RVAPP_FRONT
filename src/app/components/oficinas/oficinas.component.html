@@ -1,0 +1,79 @@
+<p-breadcrumb [home]="{icon:'pi pi-home', url:'/inicio', target:'_self'}" [model]="[{ label: 'Oficinas', styleClass: 'font-bold'}]">
+</p-breadcrumb>
+<p-messages [(value)]="messages" [enableService]="false" [closable]="false"></p-messages>
+<h2>Oficinas</h2>
+<div id="oficinasFiltro" class="mb-4">
+    <p-accordion>
+        <p-accordionTab>
+            <ng-template pTemplate="header">
+                <div class="flex items-baseline ">
+                    <span class="">Filtros</span>
+                    <i class="pi pi-search ml-2"></i>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="content">
+                <div class="grid grid-cols-4 gap-x-6 gap-y-3 mt-6">
+                    <span class="p-float-label mb-8">
+                        <input id="id" type="text" pInputText class="w-full" [(ngModel)]="filtro.id" maxlength="15">
+                        <label for="id">Id</label>
+                    </span>
+                    <span class="p-float-label mb-8">
+                        <p-dropdown id="idCiudad" [options]="ciudades" optionLabel="nombre" optionValue="id" styleClass="w-full" [(ngModel)]="filtro.idCiudad"></p-dropdown>
+                        <label for="idCiudad">Ciudad</label>
+                    </span>
+                    <span class="p-float-label mb-8">
+                        <input id="nombre" type="text" pInputText class="w-full" [(ngModel)]="filtro.nombre" maxlength="50">
+                        <label for="nombre">Nombre</label>
+                    </span>
+                    <span class="p-float-label mb-8 col-span-2">
+                        <input id="direccion" type="text" pInputText class="w-full" [(ngModel)]="filtro.direccion" maxlength="75">
+                        <label for="direccion">Dirección</label>
+                    </span>
+                </div>
+                <p-button type="button" class="p-button-primary mb-2 mr-4" label="Aplicar filtros" (click)="refreshOficinas(null)"></p-button>
+                <p-button type="button" [outlined]="true" class="p-button-rounded p-button-outlined" (click)="precargarFiltro(true)" label="Eliminar filtros"></p-button>
+            </ng-template>
+        </p-accordionTab>
+    </p-accordion>
+</div>
+<div id="botonesOficinas" class="mb-3 flex justify-end">
+    <p-button type="button" class="p-button-primary" (click)="anyadirOficinas()" label="Añadir"></p-button>
+</div>
+<div id="tabla">
+    <p-table
+    [value]="oficinas"
+    [lazy]="true"
+    (onLazyLoad)="refreshOficinas($event)"
+    dataKey="id"
+    [tableStyle]=""
+    [paginator]="true"
+    [rows]="itemsPorPagina"
+    [rowsPerPageOptions]="[5, 10, 25 , 50]"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando {first} de {last} de un total de {totalRecords} oficinas"
+    [totalRecords]="registrosTotales"
+>
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="id">Id <p-sortIcon field="nif"></p-sortIcon></th>
+            <th pSortableColumn="ciudad.nombre">Ciudad <p-sortIcon field="ciudad.nombre"></p-sortIcon></th>
+            <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
+            <th pSortableColumn="direccion">Dirección <p-sortIcon field="direccion"></p-sortIcon></th>
+            <th>Acciones </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-oficina>
+        <tr>
+            <td>{{ oficina.id }}</td>
+            <td>{{ oficina.ciudad?.nombre }}</td>
+            <td>{{ oficina.nombre }}</td>
+            <td>{{ oficina.direccion }}</td>
+            <td>
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mx-2" (click)="editarOficina(oficina)"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-rounded p-button-danger mx-2" (click)="deleteOficina(oficina)"></button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+</div>

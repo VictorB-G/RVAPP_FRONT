@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Message } from 'primeng/api';
 import { UsuarioAlta } from 'src/app/models/usuario.model';
 import { MasterdataPublicService } from 'src/app/services/masterdata-public.service';
 import { UiSpinnerService } from 'src/app/services/ui-spinner.service';
-import { FormsValidation } from 'src/app/validators/forms.validator';
+import { FormsValidation } from 'src/app/services/validators/forms.validator';
 
 @Component({
   selector: 'app-auto-register',
@@ -65,10 +65,10 @@ export class AutoRegisterComponent {
     let invalidMails = this.usuario.email !== this.usuario.confirmacionEmail;
     let invalidPasswords = this.usuario.password !== this.usuario.confirmarPassword;
     if (invalidMails) {
-      this.messages.push({ severity: 'error', summary: 'Error', detail: 'Los emails no coinciden' });
+      this.messages = [...this.messages, { severity: 'error', summary: 'Error', detail: 'Los emails no coinciden' }];
     }
     if (invalidPasswords) {
-      this.messages.push({ severity: 'error', summary: 'Error', detail: 'Las contraseñas no coinciden' });
+      this.messages = [...this.messages, { severity: 'error', summary: 'Error', detail: 'Las contraseñas no coinciden' }];
     }
     return !invalidMails && !invalidPasswords;
   }
@@ -88,6 +88,5 @@ export class AutoRegisterComponent {
           this.uiSpinnerService.hideSpinner();
         });
     } 
-    console.log(this.usuario);
   }
 }

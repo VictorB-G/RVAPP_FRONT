@@ -37,14 +37,13 @@ export class LoginComponent {
           this.authService.loginSubject.next(true);
           this.router.navigate(['/inicio']);
         } else {
-          this.messages = [{ severity: 'error', summary: 'Error', detail: 'Se ha producido un error al iniciar sesión. Las credenciales son inválidas.' }];
+          this.messages = [{ severity: 'error', summary: 'Error', detail: 'Se ha producido un error al iniciar sesión. Las credenciales son inválidas o el usuario no se encuentra activo.' }];
         }
       },
       error: (error: HttpErrorResponse) => {
-        this.messages = [{ severity: 'error', summary: 'Error', detail: 'Se ha producido un error al iniciar sesión. Las credenciales son inválidas.' }];
+        this.messages = [{ severity: 'error', summary: 'Error', detail: 'Se ha producido un error al iniciar sesión. Las credenciales son inválidas o el usuario no se encuentra activo.' }];
       }
     }
     );
   }
-
 }
