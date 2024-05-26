@@ -39,6 +39,10 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { PlantasDetailComponent } from './components/plantas/plantas-detail/plantas-detail.component';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ImageModule } from 'primeng/image';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { ReservarComponent } from './components/reservar/reservar.component';
+import { CalendarModule } from 'primeng/calendar';
+import { MisReservasComponent } from './components/mis-reservas/mis-reservas.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +60,9 @@ import { ImageModule } from 'primeng/image';
     UsuariosDetailComponent,
     CiudadesDetailComponent,
     OficinasDetailComponent,
-    PlantasDetailComponent
+    PlantasDetailComponent,
+    ReservarComponent,
+    MisReservasComponent
   ],
   imports: [
     BrowserModule,
@@ -85,7 +91,9 @@ import { ImageModule } from 'primeng/image';
     DropdownModule,
     DialogModule,
     FileUploadModule,
-    ImageModule
+    ImageModule,
+    RadioButtonModule,
+    CalendarModule
   ],
   providers: [
     {

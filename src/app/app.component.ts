@@ -25,6 +25,44 @@ export class AppComponent implements OnInit {
           cancel: 'Cancelar',
           choose: 'Elegir fichero',
           upload: 'Subir',
+          dateAfter: 'Fecha después',
+          dateBefore: 'Fecha antes',
+          clear: 'Limpiar',
+          today: 'Hoy',
+          dayNames: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+          dayNamesShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+          dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+          monthNames: [
+              "Enero",
+              "Febrero",
+              "Marzo",
+              "Abril",
+              "Mayo",
+              "Junio",
+              "Julio",
+              "Agosto",
+              "Septiembre",
+              "Octubre",
+              "Noviembre",
+              "Diciembre"
+          ],
+          monthNamesShort: [
+              "Ene",
+              "Feb",
+              "Mar",
+              "Abr",
+              "May",
+              "Jun",
+              "Jul",
+              "Ago",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dic"
+          ],
+          weekHeader: 'Semana',
+          firstDayOfWeek: 1
+
           //translations
       });
   }

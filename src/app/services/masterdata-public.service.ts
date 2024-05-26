@@ -51,4 +51,22 @@ export class MasterdataPublicService {
         });
     });
   }
+
+  async fichar(nif: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.http.post<ObjectResponse<boolean>>(`${this.API_URL}/public/fichar/${nif}`, {
+          observe: 'body'
+      }).subscribe({
+          next: (response: ObjectResponse<boolean>) => {
+            if (response.success){
+              resolve(response.message);
+            } else {
+              reject(response.error);
+            }
+          }, error: (error) =>{
+            reject('Error al realizar el fichaje')
+          }
+        });
+    });
+  }
 }

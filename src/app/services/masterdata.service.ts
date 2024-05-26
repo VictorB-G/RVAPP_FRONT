@@ -5,6 +5,8 @@ import { Rol } from '../models/rol.model';
 import { ObjectResponse } from '../utils/backend-service';
 import { Ciudad } from '../models/ciudad.model';
 import { Oficina } from '../models/oficina.model';
+import { Planta } from '../models/planta.model';
+import { Sitio } from '../models/sitio.model';
 
 @Injectable({
   providedIn: 'root'
@@ -87,6 +89,46 @@ export class MasterdataService {
             reject('Error al obtener las oficinas')
           }
         });
+    });
+  }
+
+  async getPlantasByIdOficina(idOficina: number): Promise<Planta[]> {
+    return new Promise((resolve, reject) => {
+      this.http.get<ObjectResponse<Planta[]>>(`${this.API_URL}/getPlantasByIdOficina/`+idOficina, {
+          observe: 'body'
+      }).subscribe({
+          next: (response: ObjectResponse<Planta[]>) => {
+            if (response.success){
+              resolve(response.message);
+            } else {
+              reject(response.error);
+            }
+          }, error: (error) =>{
+            reject('Error al obtener las plantas')
+          }
+        });
+    });
+  }
+
+  async getSitiosLibres(idPlanta: number, fechaInicio: Date, fechaFin: Date): Promise<Sitio[]> {
+    let parametros = {
+      idPlanta: idPlanta.toString(),
+      fechaInicio: fechaInicio.toISOString(),
+      fechaFin: fechaFin.toISOString()
+    };
+    
+    return new Promise<Sitio[]>((resolve, reject) => {
+      this.http.get<ObjectResponse<Sitio[]>>(`${this.API_URL}/getSitiosLibres`, {params: parametros, observe: 'body'}).subscribe({
+        next: (response: ObjectResponse<Sitio[]>) => {
+          if (response.success){
+            resolve(response.message);
+          } else {
+            reject(response.message);
+          }
+        }, error: (error) =>{
+          reject(error);
+        }
+      });
     });
   }
 }

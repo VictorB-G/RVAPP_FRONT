@@ -1,1 +1,78 @@
-<p>reservar works!</p>
+<p-breadcrumb [home]="{icon:'pi pi-home', url:'/inicio', target:'_self'}" [model]="[{ label: 'Reservar', styleClass: 'font-bold'}]">
+</p-breadcrumb>
+<h2>Reservar</h2>
+<p-messages [(value)]="messages" [enableService]="false" [closable]="false"></p-messages>
+<div id="reservar">
+    <p-accordion (activeIndexChange)="activeIndexChange($event)" [activeIndex]="activeIndex" [multiple]="true">
+        <p-accordionTab [header]="headerCiudad" [disabled]="disabledTabs[0]">
+            <label for="idCiudad mb-3">Selecciona una ciudad *</label>
+            <div class="flex flex-column gap-16 mt-4" id="idCiudad">
+                <div *ngFor="let ciudad of ciudades" class="field-checkbox">
+                    <p-radioButton 
+                        [inputId]="'ciudad' + ciudad.id.toString()"
+                        name="ciudad" 
+                        [value]="ciudad.id" 
+                        [(ngModel)]="idCiudad" 
+                        (onClick)="onCiudadChange($event)"/>
+                    <label [for]="'ciudad' + ciudad.id.toString()" class="ml-2">
+                        {{ ciudad.nombre }}
+                    </label>
+                </div>
+            </div>
+        </p-accordionTab>
+        <p-accordionTab [header]="headerOficina" [disabled]="disabledTabs[1]">
+            <label for="idOficina mb-3">Selecciona una oficina *</label>
+            <div class="flex flex-column gap-16 mt-4" id="idOficina">
+                <div *ngFor="let oficina of oficinas" class="field-checkbox">
+                    <p-radioButton 
+                        [inputId]="'oficina'+oficina.id.toString()"
+                        name="oficina" 
+                        [value]="oficina.id" 
+                        [(ngModel)]="idOficina" 
+                        (onClick)="onOficinaChange($event)"/>
+                    <label [for]="'oficina'+oficina.id.toString()" class="ml-2">
+                        {{ oficina.nombre }}
+                    </label>
+                </div>
+            </div>
+        </p-accordionTab>
+        <p-accordionTab [header]="headerPlanta" [disabled]="disabledTabs[2]">
+            <label for="idPlanta mb-3">Selecciona una planta *</label>
+            <div class="flex flex-column gap-16 mt-4" id="idPlanta">
+                <div *ngFor="let planta of plantas" class="field-checkbox">
+                    <p-radioButton 
+                        [inputId]="'planta'+planta.id.toString()"
+                        name="planta" 
+                        [value]="planta.id" 
+                        [(ngModel)]="idPlanta" 
+                        (onClick)="onPlantaChange($event)"/>
+                    <label [for]="'planta'+planta.id.toString()" class="ml-2">
+                        {{ planta.nombre }}
+                    </label>
+                </div>
+            </div>
+        </p-accordionTab>
+        <p-accordionTab header="Seleccionar fechas y sitio" [disabled]="disabledTabs[3]">
+            <div class="grid grid-cols-12 mt-4">
+                <span class="p-float-label col-span-4">
+                    <p-calendar id="fechaReserva" [showIcon]="true" [showButtonBar]="true" [dateFormat]="'dd/mm/yy'" [(ngModel)]="fechaReserva" [minDate]="minDate" selectionMode="range" (ngModelChange)="onFechaChange($event)"></p-calendar>
+                    <label for="id">Fecha de la reserva *</label>
+                </span>
+                <span class="p-float-label col-span-4">
+                    <p-dropdown id="idStio" [options]="sitios" optionLabel="numeroSitio" optionValue="id" styleClass="w-full" [(ngModel)]="idSitio"></p-dropdown>
+                    <label for="idSitio">Sitio *</label>
+                </span>
+                <span class="col-span-4"></span>
+                @if (this.planta?.planoPlanta) {
+                    <span class="col-span-3"></span>
+                    <span class="col-span-6 mt-4">
+                        <img [src]="convertBlobToImg()" alt="Plano de la planta" name="vistaPlano" class="w-full imgPlano">
+                    </span> 
+                }
+            </div>
+            <div id="botonesReserva" class="mb-3 mt-4 flex justify-end">
+                <p-button type="button" class="p-button-primary" (click)="reservarSitio()" label="Reservar"></p-button>
+            </div>
+        </p-accordionTab>
+    </p-accordion>
+</div>

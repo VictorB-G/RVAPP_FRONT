@@ -51,10 +51,12 @@
                         </ng-template>
                     </p-fileUpload>
                 </span>
-                <span class="col-span-6 ml-8">
-                    <label for="vistaPlano" class="mt-4">Vista previa</label>
-                    <p-image [src]="convertBlobToImg()" alt="Plano de la oficina" name="vistaPlano" styleClass="w-full" [preview]="true" width="250" height="250"></p-image>
-                </span> 
+                @if (this.ficheroCargado) {
+                    <span class="col-span-6 ml-8">
+                        <label for="vistaPlano" class="mt-4">Vista previa</label>
+                        <p-image [src]="convertBlobToImg()" alt="Plano de la oficina" name="vistaPlano" styleClass="w-full" [preview]="true" width="250" height="250"></p-image>
+                    </span> 
+                }
             }
         </div>
     }

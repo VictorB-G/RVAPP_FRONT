@@ -125,6 +125,7 @@ export class PlantasDetailComponent {
       this.plantaService.savePlanoPlanta(this.idPlanta, file)
       .then((response) => {
         this.ficheroCargado = response.message;
+        this.plantaForm.get('planoPlanta')?.setValue(this.ficheroCargado);
         this.ficheroPlano = null;
         this.messages = [{ severity: 'success', summary: 'Operación realizada', detail: 'Plano subido correctamente' }];
       }).catch((error) => {

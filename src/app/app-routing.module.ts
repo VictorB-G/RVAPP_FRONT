@@ -16,6 +16,8 @@ import { UsuariosDetailComponent } from './components/usuarios/usuarios-detail/u
 import { CiudadesDetailComponent } from './components/ciudades/ciudades-detail/ciudades-detail.component';
 import { OficinasDetailComponent } from './components/oficinas/oficinas-detail/oficinas-detail.component';
 import { PlantasDetailComponent } from './components/plantas/plantas-detail/plantas-detail.component';
+import { ReservarComponent } from './components/reservar/reservar.component';
+import { MisReservasComponent } from './components/mis-reservas/mis-reservas.component';
 
 const routes: Routes = [
   {
@@ -107,6 +109,16 @@ const routes: Routes = [
         path: 'plantas-detail/:id',
         component: PlantasDetailComponent,
         canActivate: [userLoggedGuard, userAdminGuard]
+      },
+      {
+        path: 'reservar',
+        component: ReservarComponent,
+        canActivate: [userLoggedGuard]
+      },
+      {
+        path: 'mis-reservas',
+        component: MisReservasComponent,
+        canActivate: [userLoggedGuard]
       },
       //RUTA POR DEFECTO A LA QUE ENVIAR SI NO EXISTE
       {

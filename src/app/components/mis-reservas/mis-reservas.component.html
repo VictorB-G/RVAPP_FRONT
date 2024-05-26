@@ -1,1 +1,44 @@
-<p>mis-reservas works!</p>
+<p-breadcrumb [home]="{icon:'pi pi-home', url:'/inicio', target:'_self'}" [model]="[{ label: 'Mis reservas', styleClass: 'font-bold'}]">
+</p-breadcrumb>
+<h2>Mis reservas</h2>
+<p-messages [(value)]="messages" [enableService]="false" [closable]="false"></p-messages>
+<div id="tabla">
+    <p-table
+    [value]="reservas"
+    [lazy]="true"
+    (onLazyLoad)="refreshReservas($event)"
+    dataKey="id"
+    [tableStyle]=""
+    [paginator]="true"
+    [rows]="itemsPorPagina"
+    [rowsPerPageOptions]="[5, 10, 25 , 50]"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando {first} de {last} de un total de {totalRecords} reservas futuras"
+    [totalRecords]="registrosTotales"
+>
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="codigoReserva">Código reserva <p-sortIcon field="codigoReserva"></p-sortIcon></th>
+            <th pSortableColumn="fechaReserva">Fecha reserva <p-sortIcon field="fechaReserva"></p-sortIcon></th>
+            <th pSortableColumn="sitio.planta.oficina.ciudad.nombre">Ciudad <p-sortIcon field="sitio.planta.oficina.ciudad.nombre"></p-sortIcon></th>
+            <th pSortableColumn="sitio.planta.oficina.nombre">Oficina <p-sortIcon field="sitio.planta.oficina.nombre"></p-sortIcon></th>
+            <th pSortableColumn="sitio.planta.nombre">Planta <p-sortIcon field="sitio.planta.nombre"></p-sortIcon></th>
+            <th pSortableColumn="sitio.numeroSitio">Número de sitio <p-sortIcon field="sitio.numeroSitio"></p-sortIcon></th>
+            <th>Acciones </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-reserva>
+        <tr>
+            <td>{{ reserva.codigoReserva }}</td>
+            <td>{{ reserva.fechaReserva }}</td>
+            <td>{{ reserva.sitio.planta.oficina?.ciudad?.nombre }}</td>
+            <td>{{ reserva.sitio.planta.oficina?.nombre }}</td>
+            <td>{{ reserva.sitio.planta.nombre }}</td>
+            <td>{{ reserva.sitio.numeroSitio }}</td>
+            <td>
+                <button pButton pRipple icon="pi pi-times" class="p-button-rounded p-button-danger mx-2" (click)="deleteReserva(reserva)"></button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+</div>
