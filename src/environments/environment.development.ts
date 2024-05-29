@@ -1,5 +1,4 @@
 export const environment = {
-    development: true,
-    apiBaseUrl: 'http://localhost:8080/rvap',
-    defaultRoute: 'http://localhost:4200'
+    development: false,
+    apiBaseUrl: 'http://localhost:8080/rvap'
 };

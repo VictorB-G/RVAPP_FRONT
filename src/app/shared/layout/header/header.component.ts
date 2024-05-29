@@ -52,9 +52,6 @@ export class HeaderComponent {
     }
     this.headerItems.push({label: 'Reservar', icon: 'pi pi-calendar', routerLink: '/reservar'});
     this.headerItems.push({label: 'Mis reservas', icon: 'pi pi-user', routerLink: '/mis-reservas'});
-    if (this.authService.isAdmin) {
-      this.headerItems.push({label: 'Estadísticas', icon: 'pi pi-chart-bar', routerLink: '/estadisticas'});
-    }
   }
 
 
